@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="GradeMapper">
+ 	
+ 	
+	<resultMap id="ab" type="grade">
+    	<result property="gradeName" column="grade_name" jdbcType="VARCHAR" />
+    	<result property="discount" column="discount" jdbcType="NUMERIC"/>
+	</resultMap>
+	
+   	  <select id="getMemberGrade" parameterType="long" resultType="com.model2.mvc.service.domain.Grade">
+    		SELECT grade_name
+   			 FROM (
+      				SELECT
+       				CASE
+          			WHEN #{totalPurchase} &gt;  5000 THEN 'VIP'
+          			ELSE 'BASIC'
+        			END AS grade_name
+      				FROM grade
+   				 )
+    		WHERE ROWNUM &lt; 2;
+  </select>
+	 
+</mapper>
